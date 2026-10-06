@@ -4,44 +4,47 @@ import { Reveal } from './Reveal'
 interface SectionProps {
   id: string
   index: string
-  eyebrow: string
+  label: string
+  path: string
   title: ReactNode
   intro?: ReactNode
+  aside?: ReactNode
   children: ReactNode
   className?: string
 }
 
-export function Section({ id, index, eyebrow, title, intro, children, className = '' }: SectionProps) {
+export function Section({ id, index, label, path, title, intro, aside, children, className = '' }: SectionProps) {
   return (
     <section id={id} className={`section ${className}`} aria-labelledby={`${id}-title`}>
       <div className="container">
-        <header className="section-head">
-          <Reveal as="p" className="eyebrow">
-            <span className="mono">{index}</span>
-            <span className="eyebrow-rule" aria-hidden="true" />
-            {eyebrow}
+        <header className="sec-head">
+          <Reveal className="sec-meta mono" variant="fade">
+            <span className="sec-index">
+              {index} / {label.toUpperCase()}
+            </span>
+            <span className="sec-rule" aria-hidden="true" />
+            <span className="sec-path">{path}</span>
           </Reveal>
-          <Reveal as="h2" id={`${id}-title`} className="section-title" delay={70}>
-            {title}
-          </Reveal>
-          {intro && (
-            <Reveal as="p" className="section-intro" delay={140}>
-              {intro}
-            </Reveal>
-          )}
+          <div className="sec-head-row">
+            <div>
+              <Reveal as="h2" id={`${id}-title`} className="sec-title" delay={60}>
+                {title}
+              </Reveal>
+              {intro && (
+                <Reveal as="p" className="sec-intro" delay={120}>
+                  {intro}
+                </Reveal>
+              )}
+            </div>
+            {aside && (
+              <Reveal className="sec-aside" delay={160}>
+                {aside}
+              </Reveal>
+            )}
+          </div>
         </header>
         {children}
       </div>
     </section>
-  )
-}
-
-/** Thin rule that draws outward from the centre, with a single travelling glint. */
-export function SectionDivider() {
-  return (
-    <Reveal className="divider container" variant="fade" aria-hidden="true">
-      <span className="divider-line" />
-      <span className="divider-node" />
-    </Reveal>
   )
 }

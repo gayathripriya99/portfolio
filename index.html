@@ -1,32 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Gayathri Priya — Full-Stack &amp; AI Engineer</title>
-    <meta name="description" content="Full-stack software engineer building React, Node.js, FastAPI and LLM-powered products." />
-    <meta name="theme-color" content="#0a0b10" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)" />
-    <meta name="color-scheme" content="dark light" />
+    <title>Gayathri Priya C V — Software Engineer · PRIYA.OS</title>
+    <meta name="description" content="Software engineer with 4+ years building production features end to end — React, TypeScript, Node.js, FastAPI, PostgreSQL, MongoDB and LLM-powered applications." />
+    <meta property="og:title" content="Gayathri Priya C V — Software Engineer" />
+    <meta property="og:description" content="React · TypeScript · Node.js · Python · AI. Projects, case studies and résumé." />
+    <meta name="theme-color" content="#0c0c0b" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
     <script>
-      // Enable motion before first paint so revealed content never flashes.
-      // Without this class (reduced motion, no JS, old browser) every element renders in its final state.
+      // Apply saved preferences before first paint. Without the "motion" class every element renders in its final state.
       (function () {
+        var root = document.documentElement
+        function get(k) { try { return localStorage.getItem('priyaos:' + k) } catch (e) { return null } }
+        root.dataset.theme = get('theme') === 'light' ? 'light' : 'dark'
         try {
-          var root = document.documentElement;
-          if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            root.classList.add('motion');
-          }
+          var sysReduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+          if (get('motion') !== 'reduced' && !sysReduce && 'IntersectionObserver' in window) root.classList.add('motion')
         } catch (e) {}
-      })();
+        var mode = new URLSearchParams(location.search).get('mode')
+        if (mode === 'recruiter' || (mode !== 'full' && get('recruiter') === 'on')) root.dataset.recruiter = 'on'
+      })()
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding:24px;font-family:sans-serif">Gayathri Priya C V — Software Engineer. Email gayathripriyacvg@gmail.com · <a href="/resume.pdf">Résumé (PDF)</a></p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

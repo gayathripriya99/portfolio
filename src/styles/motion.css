@@ -1,8 +1,7 @@
 /*
-  Motion layer.
-  Every "hidden / initial" state is scoped under html.motion, which is only set when the visitor
-  has not asked for reduced motion. Without it, everything renders in its final, fully readable state.
-  Only transform and opacity are animated.
+  Motion layer. Every hidden / initial state is scoped under html.motion, which is only present when the
+  visitor hasn't asked for reduced motion (OS setting or the in-site toggle). Without it, everything renders
+  in its final, readable state. Only transform and opacity are animated.
 */
 
 html.motion {
@@ -33,28 +32,36 @@ html.motion {
   transform: none;
 }
 
-/* Chips inside a revealed group arrive one after another. */
-.motion [data-reveal] .chips--stagger > .chip {
-  --cd: calc(var(--d, 0ms) + 180ms + var(--ci, 0) * 35ms);
-  opacity: 0;
-  transform: translate3d(0, 6px, 0);
-  transition: opacity 0.4s var(--ease-out) var(--cd), transform 0.4s var(--ease-out) var(--cd), border-color var(--dur-fast),
-    color var(--dur-fast);
+.motion .sec-meta .sec-rule {
+  transform: scaleX(0);
+  transition: transform 0.9s var(--ease-out) 0.2s;
 }
 
-.motion [data-reveal].is-visible .chips--stagger > .chip {
+.motion .sec-meta.is-visible .sec-rule {
+  transform: none;
+}
+
+/* Children of a revealed group arrive one after another. */
+.motion [data-reveal] .chips--stagger > * {
+  --cd: calc(var(--d, 0ms) + 160ms + var(--ci, 0) * 28ms);
+  opacity: 0;
+  transform: translate3d(0, 6px, 0);
+  transition: opacity 0.4s var(--ease-out) var(--cd), transform 0.4s var(--ease-out) var(--cd);
+}
+
+.motion [data-reveal].is-visible .chips--stagger > * {
   opacity: 1;
   transform: none;
 }
 
-/* ---------- Hero entrance ---------- */
+/* ---------- Hero entrance (held while booting) ---------- */
 
 .motion .hero-in {
-  animation: hero-rise 0.8s var(--ease-out) var(--d, 0ms) both;
+  animation: rise 0.8s var(--ease-out) var(--d, 0ms) both;
 }
 
 .motion .hero-in--scale {
-  animation-name: hero-scale;
+  animation-name: rise-scale;
   animation-duration: 1s;
 }
 
@@ -62,8 +69,8 @@ html.motion {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
 }
 
 .word-inner {
@@ -71,84 +78,116 @@ html.motion {
 }
 
 .motion .word-inner {
-  animation: word-up 0.9s var(--ease-out) var(--d, 0ms) both;
+  animation: word-up 0.95s var(--ease-out) var(--d, 0ms) both;
 }
 
-.motion .trace-row,
-.motion .trace-foot {
-  animation: trace-in 0.5s var(--ease-out) var(--d, 0ms) both;
+.motion.booting .hero-in,
+.motion.booting .word-inner,
+.motion.booting .status-row * {
+  animation-play-state: paused;
 }
 
-.motion .trace-card {
-  animation: float 9s ease-in-out 1.4s infinite alternate;
+/* Status rows check in one by one, then breathe quietly. */
+.motion .status-rows li {
+  animation: rise 0.5s var(--ease-out) calc(900ms + var(--si) * 110ms) both;
 }
 
-.motion .hero-chip--a {
-  animation: float 7s ease-in-out infinite alternate;
+.motion .status-pending {
+  animation: fade-out 0.2s linear calc(1150ms + var(--si) * 110ms) both;
 }
 
-.motion .hero-chip--b {
-  animation: float 8.5s ease-in-out 0.6s infinite alternate-reverse;
+.motion .status-ok {
+  animation: fade-in 0.35s var(--ease-out) calc(1250ms + var(--si) * 110ms) both;
 }
 
-.motion .hero-chip--c {
-  animation: float 10s ease-in-out 1.2s infinite alternate;
+.motion .status-dot::after {
+  animation: ring 6s var(--ease-out) calc(2600ms + var(--si) * 1000ms) infinite;
 }
 
 .motion .live-dot::after {
-  animation: ring 2.4s var(--ease-out) 1s 4;
+  animation: ring 2.6s var(--ease-out) 1.2s 4;
 }
 
-.motion .trace-cursor {
+.motion .nav-caret {
   animation: blink 1.1s steps(1) infinite;
 }
 
-.motion .hero-scroll-line::after {
-  animation: scroll-cue 2.6s var(--ease-in-out) 2s infinite;
-}
-
-/* ---------- Ambient background ---------- */
-
-.motion .ambient-field {
-  will-change: transform;
-}
+/* ---------- Ambient ---------- */
 
 .motion .ambient-field--a {
-  animation: drift-a 36s ease-in-out infinite alternate;
+  animation: drift-a 40s ease-in-out infinite alternate;
 }
 
 .motion .ambient-field--b {
-  animation: drift-b 44s ease-in-out infinite alternate;
+  animation: drift-b 52s ease-in-out infinite alternate;
 }
 
-.motion .ambient-field--c {
-  animation: drift-c 52s ease-in-out infinite alternate;
+/* ---------- Project explorer ---------- */
+
+.motion .explorer.is-visible .xrow-wrap {
+  animation: rise 0.55s var(--ease-out) calc(120ms + var(--ri) * 70ms) both;
 }
 
-/* ---------- Section divider ---------- */
-
-.motion .divider .divider-line {
-  transform: scaleX(0);
-  transition: transform 1.1s var(--ease-out) 0.1s;
+.motion .xprev {
+  transform: scale(1.03);
+  transition: opacity 0.45s var(--ease-out), transform 0.7s var(--ease-out), clip-path 0.6s var(--ease-out);
+  clip-path: inset(0 0 100% 0 round var(--radius));
 }
 
-.motion .divider .divider-node {
+.motion .xprev.is-active {
+  transform: none;
+  clip-path: inset(0 0 0 0 round var(--radius));
+}
+
+.motion .xprev-meta > * {
+  animation: rise 0.45s var(--ease-out) both;
+}
+
+.motion .xprev-meta > :nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.motion .xprev-meta > :nth-child(3) {
+  animation-delay: 100ms;
+}
+
+/* ---------- Git log ---------- */
+
+.motion .gitlog-fill {
+  transform: scaleY(0);
+}
+
+.motion .commit .commit-node {
+  transform: scale(0.4);
+  opacity: 0.3;
+  transition: transform 0.5s var(--ease-out) calc(var(--d, 0ms) + 150ms), opacity 0.5s var(--ease-out) calc(var(--d, 0ms) + 150ms);
+}
+
+.motion .commit.is-visible .commit-node {
+  transform: none;
+  opacity: 1;
+}
+
+.motion .commit .commit-tree li {
   opacity: 0;
-  transform: rotate(45deg) scale(0.4);
-  transition: opacity 0.5s var(--ease-out) 0.5s, transform 0.5s var(--ease-out) 0.5s;
+  transform: translate3d(-6px, 0, 0);
+  transition: opacity 0.4s var(--ease-out) calc(var(--d, 0ms) + 250ms + var(--ti) * 70ms),
+    transform 0.4s var(--ease-out) calc(var(--d, 0ms) + 250ms + var(--ti) * 70ms);
 }
 
-.motion .divider.is-visible .divider-line {
+.motion .commit.is-visible .commit-tree li {
+  opacity: 1;
   transform: none;
 }
 
-.motion .divider.is-visible .divider-node {
-  opacity: 1;
-  transform: rotate(45deg);
+.motion .commit-details:not([hidden]) {
+  animation: rise 0.4s var(--ease-out) both;
 }
 
-.motion .divider.is-visible .divider-line::after {
-  animation: glint 1.6s var(--ease-in-out) 0.9s 1 both;
+/* ---------- Stack inspector ---------- */
+
+.motion .tm-insp-name {
+  animation: rise 0.35s var(--ease-out) both;
 }
 
 /* ---------- Architecture diagram ---------- */
@@ -157,8 +196,7 @@ html.motion {
   --sd: calc(var(--step, 0) * 90ms + 120ms);
   opacity: 0;
   transform: translate3d(0, 10px, 0) scale(0.98);
-  transition: opacity 0.5s var(--ease-out) var(--sd), transform 0.5s var(--ease-out) var(--sd), border-color var(--dur-fast),
-    box-shadow var(--dur-med);
+  transition: opacity 0.5s var(--ease-out) var(--sd), transform 0.5s var(--ease-out) var(--sd), border-color var(--dur-fast);
 }
 
 .motion .arch-lanes .arch-link::before {
@@ -175,74 +213,20 @@ html.motion {
   transform: none;
 }
 
-/* A pulse travels down each connector a few times, cascading like a request through the system. */
 .motion .arch-lanes.is-visible .arch-pulse {
   animation: pulse-down 1.8s var(--ease-in-out) calc(var(--step, 0) * 140ms + 1000ms) 3 both;
 }
 
-/* ---------- Experience timeline ---------- */
+/* ---------- Overlays ---------- */
 
-.motion .timeline-fill {
-  transform: scaleY(0);
-}
-
-.motion .timeline-item .timeline-dot {
-  transform: scale(0.5);
-  opacity: 0.4;
-  transition: transform 0.5s var(--ease-out) calc(var(--d, 0ms) + 150ms), opacity 0.5s var(--ease-out) calc(var(--d, 0ms) + 150ms);
-}
-
-.motion .timeline-item.is-visible .timeline-dot {
-  transform: none;
-  opacity: 1;
-}
-
-.motion .timeline-item .timeline-points > li {
-  --pd: calc(var(--d, 0ms) + 260ms + var(--pi, 0) * 90ms);
+.motion .case::backdrop,
+.motion .palette::backdrop {
   opacity: 0;
-  transform: translate3d(0, 6px, 0);
-  transition: opacity 0.45s var(--ease-out) var(--pd), transform 0.45s var(--ease-out) var(--pd);
+  transition: opacity 0.25s var(--ease-out);
 }
 
-.motion .timeline-item.is-visible .timeline-points > li {
-  opacity: 1;
-  transform: none;
-}
-
-/* Key achievements get a soft highlight that sweeps in once. */
-.motion .timeline-item .is-highlight > span::before {
-  transform: scaleX(0);
-  transition: transform 0.8s var(--ease-out) calc(var(--pd) + 300ms);
-}
-
-.motion .timeline-item.is-visible .is-highlight > span::before {
-  transform: none;
-}
-
-/* ---------- Mobile menu ---------- */
-
-.motion .nav.is-open .nav-sheet {
-  animation: sheet-drop 0.28s var(--ease-out) both;
-}
-
-.motion .nav.is-open .nav-sheet-link {
-  animation: hero-rise 0.4s var(--ease-out) calc(var(--i, 0) * 40ms + 60ms) both;
-}
-
-/* ---------- Contact ---------- */
-
-.motion .contact-card.is-visible .contact-glow {
-  animation: glow-drift 16s ease-in-out infinite alternate;
-}
-
-/* ---------- Case study dialog ---------- */
-
-.motion .case::backdrop {
-  opacity: 0;
-  transition: opacity 0.3s var(--ease-out);
-}
-
-.motion .case.is-open::backdrop {
+.motion .case.is-open::backdrop,
+.motion .palette.is-open::backdrop {
   opacity: 1;
 }
 
@@ -263,36 +247,27 @@ html.motion {
   transition-duration: 0.2s;
 }
 
-.motion .case-head > *,
-.motion .case-summary {
+.motion .case-head > * {
   opacity: 0;
   transform: translate3d(0, 10px, 0);
   transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
 }
 
-.motion .case.is-open .case-head > *,
-.motion .case.is-open .case-summary {
+.motion .case.is-open .case-head > * {
   opacity: 1;
   transform: none;
 }
 
-.motion .case.is-open .case-title {
+.motion .case.is-open .case-head > :nth-child(2) {
   transition-delay: 60ms;
 }
-
-.motion .case.is-open .case-tagline {
+.motion .case.is-open .case-head > :nth-child(3) {
   transition-delay: 110ms;
 }
-
-.motion .case.is-open .case-links {
+.motion .case.is-open .case-head > :nth-child(4) {
   transition-delay: 160ms;
 }
 
-.motion .case.is-open .case-summary {
-  transition-delay: 240ms;
-}
-
-/* Screenshot-style reveal: settles from a slight zoom. */
 .motion .case-media .preview-inner {
   opacity: 0;
   transform: scale(1.05);
@@ -304,12 +279,70 @@ html.motion {
   transform: none;
 }
 
+.motion .palette-panel {
+  opacity: 0;
+  transform: translate3d(0, -8px, 0) scale(0.985);
+  transition: opacity 0.18s var(--ease-out), transform 0.25s var(--ease-out);
+}
+
+.motion .palette.is-open .palette-panel {
+  opacity: 1;
+  transform: none;
+}
+
+.motion .term {
+  transition: opacity 0.22s var(--ease-out), transform 0.3s var(--ease-out), visibility 0s linear 0.3s;
+}
+
+.motion .term.is-open {
+  transition: opacity 0.22s var(--ease-out), transform 0.3s var(--ease-out), visibility 0s;
+}
+
+.motion .toast {
+  animation: toast-in 0.35s var(--ease-out) both;
+}
+
+.motion .nav.is-open .nav-sheet-link,
+.motion .nav.is-open .nav-sheet-actions {
+  animation: rise 0.4s var(--ease-out) calc(var(--i, 0) * 35ms + 40ms) both;
+}
+
+/* Boot */
+.boot-lines li,
+.boot-ready {
+  opacity: 0;
+  transform: translate3d(0, 4px, 0);
+  transition: opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+}
+
+.boot-lines li.is-on,
+.boot-ready.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.boot-bar span {
+  transition: transform 0.15s linear;
+}
+
+.boot.is-leaving {
+  opacity: 0;
+  transform: scale(1.015);
+  transition: opacity 0.38s var(--ease-out), transform 0.38s var(--ease-out);
+}
+
+/* Easter egg: a brief "hire mode" sweep across the brand. */
+.motion.egg .nav-logo,
+.motion.egg .footer-mark {
+  animation: egg 2.4s var(--ease-in-out);
+}
+
 /* ---------- Keyframes ---------- */
 
-@keyframes hero-rise {
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translate3d(0, 16px, 0);
+    transform: translate3d(0, 14px, 0);
   }
   to {
     opacity: 1;
@@ -317,10 +350,10 @@ html.motion {
   }
 }
 
-@keyframes hero-scale {
+@keyframes rise-scale {
   from {
     opacity: 0;
-    transform: translate3d(0, 24px, 0) scale(0.97);
+    transform: translate3d(0, 22px, 0) scale(0.97);
   }
   to {
     opacity: 1;
@@ -331,7 +364,7 @@ html.motion {
 @keyframes word-up {
   from {
     opacity: 0;
-    transform: translate3d(0, 105%, 0);
+    transform: translate3d(0, 108%, 0);
   }
   to {
     opacity: 1;
@@ -339,34 +372,27 @@ html.motion {
   }
 }
 
-@keyframes trace-in {
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translate3d(-8px, 0, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
-@keyframes float {
-  from {
-    transform: translate3d(0, -5px, 0);
-  }
+@keyframes fade-out {
   to {
-    transform: translate3d(0, 6px, 0);
+    opacity: 0;
   }
 }
 
 @keyframes ring {
-  from {
-    opacity: 0.6;
+  0% {
+    opacity: 0.55;
     transform: scale(1);
   }
-  to {
+  25%,
+  100% {
     opacity: 0;
-    transform: scale(2.6);
+    transform: scale(2.8);
   }
 }
 
@@ -376,40 +402,15 @@ html.motion {
   }
 }
 
-@keyframes scroll-cue {
-  0% {
-    transform: translate3d(0, -100%, 0);
-  }
-  60%,
-  100% {
-    transform: translate3d(0, 250%, 0);
-  }
-}
-
 @keyframes drift-a {
   to {
-    transform: translate3d(8vmax, 6vmax, 0) scale(1.08);
+    transform: translate3d(8vmax, 6vmax, 0);
   }
 }
 
 @keyframes drift-b {
   to {
-    transform: translate3d(-7vmax, 9vmax, 0) scale(0.94);
-  }
-}
-
-@keyframes drift-c {
-  to {
-    transform: translate3d(6vmax, -8vmax, 0) scale(1.06);
-  }
-}
-
-@keyframes glint {
-  from {
-    transform: translate3d(-100%, 0, 0);
-  }
-  to {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(-8vmax, 8vmax, 0);
   }
 }
 
@@ -428,20 +429,27 @@ html.motion {
   }
 }
 
-@keyframes sheet-drop {
+@keyframes toast-in {
   from {
     opacity: 0;
-    transform: translate3d(0, -8px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translate3d(0, 10px, 0) scale(0.98);
   }
 }
 
-@keyframes glow-drift {
-  to {
-    transform: translate3d(-12%, 10%, 0) scale(1.1);
+@keyframes egg {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: skewX(-8deg) translate3d(-2px, 0, 0);
+  }
+  40% {
+    transform: skewX(6deg) translate3d(2px, 0, 0);
+  }
+  60% {
+    transform: none;
+    opacity: 0.6;
   }
 }
 
@@ -469,7 +477,9 @@ html.motion {
   .ambient,
   .nav,
   .scroll-progress,
-  .hero-scroll {
+  .term,
+  .term-launcher,
+  .toasts {
     display: none !important;
   }
 }

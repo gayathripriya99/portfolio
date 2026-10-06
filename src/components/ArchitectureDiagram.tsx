@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import type { NodeKind, Project } from '../data/portfolio'
+import type { NodeKind, Project } from '../data/projects'
 import { Reveal } from './Reveal'
 
 const legend: { kind: NodeKind; label: string }[] = [

@@ -131,3 +131,94 @@ export const SkillIcons = {
     </Icon>
   ),
 }
+
+export const Search = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m20 20-4.2-4.2" />
+  </Icon>
+)
+
+export const TerminalIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3" y="4" width="18" height="16" rx="2.5" />
+    <path d="m7.5 9.5 3 2.5-3 2.5M12.5 15h4" />
+  </Icon>
+)
+
+export const Sun = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4" />
+  </Icon>
+)
+
+export const Moon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />
+  </Icon>
+)
+
+export const Eye = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
+    <circle cx="12" cy="12" r="2.8" />
+  </Icon>
+)
+
+export const Briefcase = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3" y="7" width="18" height="13" rx="2.5" />
+    <path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18" />
+  </Icon>
+)
+
+export const Motion = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 12h3l2-5 4 10 2-5h5" />
+  </Icon>
+)
+
+export const Shuffle = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M16 4h4v4M4 20 20 4M20 16v4h-4M14.5 14.5 20 20M4 4l5 5" />
+  </Icon>
+)
+
+export const Sparkle = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6" />
+  </Icon>
+)
+
+export const Hash = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M5 9h15M4 15h15M10 3 8 21M16 3l-2 18" />
+  </Icon>
+)
+
+export const Chevron = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="m6 9 6 6 6-6" />
+  </Icon>
+)
+
+export const CategoryIcons = {
+  frontend: SkillIcons.frontend,
+  backend: SkillIcons.backend,
+  data: SkillIcons.data,
+  infra: SkillIcons.cloud,
+  ai: SkillIcons.ai,
+  access: (p: IconProps) => (
+    <Icon {...p}>
+      <path d="M12 3 4.5 6v5.5c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5V6z" />
+      <path d="m9 12 2.2 2.2L15.5 10" className="icon-accent" />
+    </Icon>
+  ),
+}
+
+export const ArrowLeft = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </Icon>
+)
