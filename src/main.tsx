@@ -19,7 +19,7 @@ window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',
 console.log(
   '%cPRIYA.OS%c\nHi! You opened the console — my kind of person.\nPress ⌘K / Ctrl+K, or ` for the terminal. Try: sudo hire priya',
   'font: 600 20px Geist Mono, monospace; color: #86d9a8',
-  'font: 12px Geist Mono, monospace; color: #a3a097',
+  'font: 12px Geist Mono, monospace; color: #b3afa5',
 )
 
 createRoot(document.getElementById('root')!).render(

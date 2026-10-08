@@ -51,7 +51,8 @@ export function Hero() {
             <span className="hero-id mono hero-in" style={d(80)}>
               {profile.name} — {profile.role}
             </span>
-            <span className="hero-headline" aria-label="Product engineer for the whole stack.">
+            <span className="hero-headline">
+              <span className="sr-only">Product engineer for the whole stack.</span>
               {headline.map((w, i) => (
                 <Fragment key={w}>
                   <span className="word" aria-hidden="true">

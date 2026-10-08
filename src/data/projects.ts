@@ -48,7 +48,7 @@ export const projects: Project[] = [
     impact: 'Local-first document Q&A and quiz generation; documents never leave the machine.',
     preview: 'mentor',
     tech: ['React', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL', 'LLM integration', 'Ollama', 'Structured output', 'REST APIs'],
-    links: {},
+    links: { github: 'https://github.com/gayathripriya99/AI-Powered-Learning-Analytics-Platform' },
     overview:
       'General-purpose chatbots answer from the open internet, not from the material a learner is actually studying. Priya Mentor AI is a study companion: upload PDFs, Word documents or notes, ask questions answered from that content, and generate multiple-choice quizzes on any topic — all running against a local model.',
     myRole: [
@@ -193,7 +193,7 @@ export const projects: Project[] = [
     impact: 'One enforcement point for RBAC and ABAC, with tenant isolation and an audit trail.',
     preview: 'access',
     tech: ['React', 'Node.js', 'Express', 'MongoDB', 'JWT', 'REST APIs', 'RBAC', 'ABAC', 'Authorization middleware', 'Multi-tenancy', 'Audit logging'],
-    links: {},
+    links: { github: 'https://github.com/gayathripriya99/AccessFlow' },
     overview:
       'AccessFlow is an Identity and Access Management platform. It authenticates users, decides what each user may do inside their tenant using roles, permissions and attributes, and records those decisions.',
     myRole: [
@@ -297,7 +297,7 @@ export const projects: Project[] = [
     impact: 'End-to-end CRUD workflows for students, courses, marks and academic records.',
     preview: 'erp',
     tech: ['React', 'Node.js', 'Express', 'MongoDB', 'REST APIs'],
-    links: {},
+    links: { github: 'https://github.com/gayathripriya99/student-management-erp' },
     overview: 'A full-stack student management application covering students, courses, marks and academic information.',
     myRole: [
       'Built the React.js frontend and the Node.js / Express.js REST API.',

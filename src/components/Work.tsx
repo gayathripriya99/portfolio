@@ -76,6 +76,7 @@ export function Work() {
                     <span className="xrow-meta mono">
                       <span className="xrow-type">{p.type}</span>
                       <span className="xrow-tech">{p.tech.slice(0, 4).join(' / ')}</span>
+                      {p.links.github && <span className="xrow-src">● source</span>}
                     </span>
                   </span>
                   <span className="xrow-year mono">{p.year ?? '—'}</span>
